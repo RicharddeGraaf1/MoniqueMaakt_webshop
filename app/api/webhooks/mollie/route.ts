@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import createMollieClient from '@mollie/api-client'
+import createMollieClient, { PaymentStatus } from '@mollie/api-client'
 
 const mollieClient = createMollieClient({
   apiKey: process.env.MOLLIE_API_KEY || '',
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     // Update order status based on payment status
     let orderStatus = order.status
-    if (payment.isPaid()) {
+    if (payment.status === PaymentStatus.paid) {
       orderStatus = 'paid'
       // Update stock
       const orderItems = await prisma.orderItem.findMany({
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
           },
         })
       }
-    } else if (payment.isCanceled() || payment.isExpired()) {
+    } else if (payment.status === PaymentStatus.canceled || payment.status === PaymentStatus.expired) {
       orderStatus = 'cancelled'
     }
 
