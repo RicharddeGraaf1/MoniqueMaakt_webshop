@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import createMollieClient from '@mollie/api-client'
+import createMollieClient, { PaymentMethod } from '@mollie/api-client'
 
 const mollieClient = createMollieClient({
   apiKey: process.env.MOLLIE_API_KEY || '',
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       description: `Bestelling #${order.id}`,
       redirectUrl: `${appUrl}/orders/${order.id}?status=paid`,
       webhookUrl: `${appUrl}/api/webhooks/mollie`,
-      method: 'ideal',
+      method: PaymentMethod.ideal,
       metadata: {
         orderId: order.id,
       },
