@@ -2,9 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import createMollieClient, { PaymentStatus } from '@mollie/api-client'
 
-const mollieClient = createMollieClient({
-  apiKey: process.env.MOLLIE_API_KEY || '',
-})
+
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,6 +21,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get payment status from Mollie
+    const mollieClient = createMollieClient({ apiKey: process.env.MOLLIE_API_KEY || '' })
     const payment = await mollieClient.payments.get(paymentId)
 
     // Find order by Mollie payment ID

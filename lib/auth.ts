@@ -52,7 +52,7 @@ export async function requireAuth() {
 
 export async function requireAdmin() {
   const user = await requireAuth()
-  if (user.role !== 'admin') {
+  if (!user || user.role !== 'admin') {
     const { redirect } = await import('next/navigation')
     redirect('/')
   }

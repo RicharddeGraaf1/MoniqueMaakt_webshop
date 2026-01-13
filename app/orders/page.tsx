@@ -1,10 +1,15 @@
 import { prisma } from '@/lib/prisma'
+import { redirect } from 'next/navigation'
 import { requireAuth } from '@/lib/auth'
 import Link from 'next/link'
 
 export default async function OrdersPage() {
   const user = await requireAuth()
-  
+
+  if (!user) {
+    redirect('/login')
+  }
+
   const orders = await prisma.order.findMany({
     where: {
       userId: user.userId,
@@ -59,9 +64,8 @@ export default async function OrdersPage() {
                     {new Date(order.createdAt).toLocaleDateString('nl-NL')}
                   </p>
                 </div>
-                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                  statusColors[order.status] || statusColors.pending
-                }`}>
+                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${statusColors[order.status] || statusColors.pending
+                  }`}>
                   {order.status}
                 </span>
               </div>

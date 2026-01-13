@@ -22,7 +22,7 @@ export default async function OrderPage({ params }: { params: { id: string } }) 
   }
 
   // Check if user owns this order or is admin
-  if (order.userId !== user.userId && user.role !== 'admin') {
+  if (!user || (order.userId !== user.userId && user.role !== 'admin')) {
     notFound()
   }
 
@@ -42,9 +42,8 @@ export default async function OrderPage({ params }: { params: { id: string } }) 
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <div className="flex justify-between items-center mb-4">
           <span className="text-gray-600">Status:</span>
-          <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-            statusColors[order.status] || statusColors.pending
-          }`}>
+          <span className={`px-3 py-1 rounded-full text-sm font-semibold ${statusColors[order.status] || statusColors.pending
+            }`}>
             {order.status}
           </span>
         </div>

@@ -48,7 +48,11 @@ export default function ProductForm({ categories, product }: ProductFormProps) {
     formState: { errors },
   } = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
-    defaultValues: product || {
+    defaultValues: product ? {
+      ...product,
+      description: product.description || '',
+      image: product.image || '',
+    } : {
       name: '',
       slug: '',
       description: '',
