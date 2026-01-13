@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { prisma } from '@/lib/prisma'
 
 export default async function ProductsPage({
@@ -40,8 +41,8 @@ export default async function ProductsPage({
             <Link
               href="/products"
               className={`px-5 py-2.5 rounded-full transition-all duration-200 text-sm font-medium ${!searchParams.category
-                  ? 'bg-primary text-white shadow-sm'
-                  : 'bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900'
+                ? 'bg-primary text-white shadow-sm'
+                : 'bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900'
                 }`}
             >
               Alle
@@ -51,8 +52,8 @@ export default async function ProductsPage({
                 key={category.id}
                 href={`/products?category=${category.slug}`}
                 className={`px-5 py-2.5 rounded-full transition-all duration-200 text-sm font-medium ${searchParams.category === category.slug
-                    ? 'bg-primary text-white shadow-sm'
-                    : 'bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900'
+                  ? 'bg-primary text-white shadow-sm'
+                  : 'bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900'
                   }`}
               >
                 {category.name}
@@ -76,10 +77,11 @@ export default async function ProductsPage({
             >
               <div className="aspect-square bg-stone-100 relative overflow-hidden">
                 {product.image ? (
-                  <img
+                  <Image
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    className="object-cover transform group-hover:scale-105 transition-transform duration-500"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-stone-400">

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { prisma } from '@/lib/prisma'
 
 export default async function Home() {
@@ -44,10 +45,11 @@ export default async function Home() {
               >
                 {product.image && (
                   <div className="aspect-square bg-stone-100 relative overflow-hidden">
-                    <img
+                    <Image
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                      fill
+                      className="object-cover transform group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 )}

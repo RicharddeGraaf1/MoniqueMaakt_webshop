@@ -2,12 +2,13 @@
 
 import { useCartStore } from '@/store/cartStore'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Trash2 } from 'lucide-react'
 import { useEffect } from 'react'
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, getTotal, loadFromStorage } = useCartStore()
-  
+
   useEffect(() => {
     loadFromStorage()
   }, [loadFromStorage])
@@ -40,11 +41,14 @@ export default function CartPage() {
             <div key={item.id} className="p-6 flex items-center justify-between">
               <div className="flex items-center space-x-4 flex-1">
                 {item.image && (
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-20 h-20 object-cover rounded"
-                  />
+                  <div className="relative w-20 h-20 rounded overflow-hidden">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 )}
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-gray-900">{item.name}</h3>

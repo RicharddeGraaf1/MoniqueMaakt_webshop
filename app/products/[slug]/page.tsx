@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
+import Image from 'next/image'
 import AddToCartButton from '@/components/AddToCartButton'
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
@@ -18,11 +19,12 @@ export default async function ProductPage({ params }: { params: { slug: string }
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {product.image && (
-          <div className="aspect-square bg-stone-100 rounded-2xl overflow-hidden shadow-sm border border-stone-100">
-            <img
+          <div className="aspect-square bg-stone-100 rounded-2xl overflow-hidden shadow-sm border border-stone-100 relative">
+            <Image
               src={product.image}
               alt={product.name}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           </div>
         )}
