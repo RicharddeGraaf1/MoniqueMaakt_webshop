@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import createMollieClient, { PaymentMethod } from '@mollie/api-client'
 
+export const dynamic = 'force-dynamic'
+
 
 
 export async function POST(request: NextRequest) {
