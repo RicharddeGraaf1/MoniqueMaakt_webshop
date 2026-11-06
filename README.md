@@ -24,13 +24,12 @@ npm install
 cp .env.example .env
 ```
 
-3. Maak de database aan en run migrations:
+3. Zet het schema in de database (PostgreSQL, zie `DATABASE_URL`):
 ```bash
-npx prisma migrate dev --name init
-npx prisma generate
+npx prisma db push
 ```
 
-4. (Optioneel) Seed de database met voorbeelddata:
+4. Zet de producten in de database:
 ```bash
 npm run seed
 ```
@@ -53,11 +52,22 @@ Voor iDEAL betalingen heb je een Mollie account nodig:
 
 ## Database
 
-De webshop gebruikt Prisma met SQLite voor ontwikkeling. Voor productie wordt aangeraden om PostgreSQL of MySQL te gebruiken.
+De webshop gebruikt Prisma met PostgreSQL. Het schema wordt bijgewerkt met `prisma db push`; in productie gebeurt dat bij het opstarten van de container.
+
+De producten staan in [prisma/seed.ts](prisma/seed.ts). De foto's staan in `public/products/<slug>/` (1.jpg is de hoofdfoto). Opnieuw seeden werkt namen, beschrijvingen, prijzen en foto's bij, maar laat de voorraad staan.
+
+## Deployment (Coolify)
+
+De shop draait als Docker-container op Coolify (server apps-1):
+
+- **Database**: PostgreSQL-resource in Coolify.
+- **App**: uit deze repo, build pack *Dockerfile*, poort 3000, health-check op `/api/health`.
+- **Variabelen**: `DATABASE_URL` (interne URL van de database), `MOLLIE_API_KEY`, `APP_URL` (bv. `https://moniquemaakt.nl`), `JWT_SECRET`.
+- **Seeden**: in de terminal van de app-container `npm run seed`.
 
 ## Admin Access
 
-Standaard wordt er geen admin gebruiker aangemaakt. Gebruik de seed script of maak handmatig een admin gebruiker aan in de database.
+Standaard wordt er geen admin gebruiker aangemaakt. Registreer een account via de site en zet daarna in de database `role` op `admin` voor die gebruiker. Log daarna opnieuw in: de rol zit in het login-token.
 
 ## License
 

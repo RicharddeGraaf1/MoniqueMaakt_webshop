@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
 
     // Create Mollie payment
     const mollieClient = createMollieClient({ apiKey: process.env.MOLLIE_API_KEY || '' })
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+    const appUrl = process.env.APP_URL || 'http://localhost:3000'
     const payment = await mollieClient.payments.create({
       amount: {
         currency: 'EUR',

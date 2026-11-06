@@ -7,8 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -39,7 +38,8 @@ model Product {
   description String?
   price       Float
   image       String?
-  stock       Int       @default(0)
+  images      String[]  @default([]) // extra foto's naast de hoofdfoto
+  stock      Int       @default(0)
   categoryId  String
   category    Category  @relation(fields: [categoryId], references: [id])
   createdAt   DateTime  @default(now())

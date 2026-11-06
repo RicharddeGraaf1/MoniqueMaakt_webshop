@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
-import Image from 'next/image'
 import AddToCartButton from '@/components/AddToCartButton'
+import ProductGallery from '@/components/ProductGallery'
 
 export default async function ProductPage({ params }: { params: { slug: string } }) {
   const product = await prisma.product.findUnique({
@@ -19,14 +19,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {product.image && (
-          <div className="aspect-square bg-stone-100 rounded-2xl overflow-hidden shadow-sm border border-stone-100 relative">
-            <Image
-              src={product.image}
-              alt={product.name}
-              fill
-              className="object-cover"
-            />
-          </div>
+          <ProductGallery images={[product.image, ...product.images]} alt={product.name} />
         )}
         <div className="lg:py-4">
           <h1 className="text-4xl font-serif font-bold text-stone-800 mb-4">{product.name}</h1>
